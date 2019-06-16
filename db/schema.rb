@@ -10,10 +10,40 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_16_192824) do
+ActiveRecord::Schema.define(version: 2019_06_16_203812) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "folder_lists", force: :cascade do |t|
+    t.integer "list_id"
+    t.integer "folder_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "folders", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_folders_on_user_id"
+  end
+
+  create_table "lists", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_lists_on_user_id"
+  end
+
+  create_table "terms", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "list_id"
+    t.bigint "user_id"
+    t.index ["list_id"], name: "index_terms_on_list_id"
+    t.index ["user_id"], name: "index_terms_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -27,4 +57,8 @@ ActiveRecord::Schema.define(version: 2019_06_16_192824) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "folders", "users"
+  add_foreign_key "lists", "users"
+  add_foreign_key "terms", "lists"
+  add_foreign_key "terms", "users"
 end
