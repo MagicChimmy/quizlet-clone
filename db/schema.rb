@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_17_142654) do
+ActiveRecord::Schema.define(version: 2019_06_17_171010) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,8 @@ ActiveRecord::Schema.define(version: 2019_06_17_142654) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
+    t.string "title"
+    t.boolean "starred"
     t.index ["user_id"], name: "index_folders_on_user_id"
   end
 
@@ -35,6 +37,9 @@ ActiveRecord::Schema.define(version: 2019_06_17_142654) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
+    t.string "title"
+    t.boolean "completed", default: false
+    t.boolean "starred", default: false
     t.index ["user_id"], name: "index_lists_on_user_id"
   end
 
@@ -43,6 +48,10 @@ ActiveRecord::Schema.define(version: 2019_06_17_142654) do
     t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.bigint "list_id"
+    t.text "submission"
+    t.string "added_text"
+    t.text "translation"
+    t.boolean "starred"
     t.index ["list_id"], name: "index_terms_on_list_id"
     t.index ["user_id"], name: "index_terms_on_user_id"
   end
