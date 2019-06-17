@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_17_135358) do
+ActiveRecord::Schema.define(version: 2019_06_17_142654) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,16 +27,24 @@ ActiveRecord::Schema.define(version: 2019_06_17_135358) do
   create_table "folders", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_folders_on_user_id"
   end
 
   create_table "lists", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_lists_on_user_id"
   end
 
   create_table "terms", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.bigint "list_id"
+    t.index ["list_id"], name: "index_terms_on_list_id"
+    t.index ["user_id"], name: "index_terms_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -53,4 +61,8 @@ ActiveRecord::Schema.define(version: 2019_06_17_135358) do
 
   add_foreign_key "folder_lists", "folders"
   add_foreign_key "folder_lists", "lists"
+  add_foreign_key "folders", "users"
+  add_foreign_key "lists", "users"
+  add_foreign_key "terms", "lists"
+  add_foreign_key "terms", "users"
 end
